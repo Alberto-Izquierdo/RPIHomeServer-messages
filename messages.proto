@@ -1,0 +1,38 @@
+syntax = "proto2";
+
+package messages.protocol;
+
+service RPIHomeServerService {
+  // First action to perform from the client, it contains the pin names this device will handle
+  rpc RegisterToServer (RegistrationMessage) returns (RegistrationResult) {}
+  // Pooling function, it will normally return an empty array
+  rpc CheckForActions (Empty) returns (ActionsToPerform) {}
+  // Last action to perform when exiting gracefully, the server will remove the pins associated with this client
+  rpc UnregisterToServer (Empty) returns (Empty) {}
+}
+
+message RegistrationMessage {
+    repeated string pinsToHandle = 1; 
+}
+
+enum RegistrationStatusCodes {
+    Unknown = 0;
+    Ok = 1;
+    PinNameAlreadyRegistered = 2;
+}
+
+message RegistrationResult {
+    required RegistrationStatusCodes result = 1;
+    repeated string pinsRepeated = 2;
+}
+
+message Empty {}
+
+message PinStatePair {
+    required string pin = 1;
+    required bool state = 2;
+}
+
+message ActionsToPerform {
+    repeated PinStatePair actions = 1;
+}
