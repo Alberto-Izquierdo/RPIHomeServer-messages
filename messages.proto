@@ -1,11 +1,13 @@
-syntax = "proto2";
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
 
 package messages.protocol;
 
 service RPIHomeServerService {
   // First action to perform from the client, it contains the pin names this device will handle
   rpc RegisterToServer (RegistrationMessage) returns (RegistrationResult) {}
-  // Pooling function, it will normally return an empty array
+  // Pooling function, it will normally return two empty arrays
   rpc CheckForActions (Empty) returns (ActionsToPerform) {}
   // Last action to perform when exiting gracefully, the server will remove the pins associated with this client
   rpc UnregisterToServer (Empty) returns (Empty) {}
@@ -22,17 +24,25 @@ enum RegistrationStatusCodes {
 }
 
 message RegistrationResult {
-    required RegistrationStatusCodes result = 1;
+    RegistrationStatusCodes result = 1;
     repeated string pinsRepeated = 2;
 }
 
 message Empty {}
 
 message PinStatePair {
-    required string pin = 1;
-    required bool state = 2;
+    string pin = 1;
+    bool state = 2;
 }
 
 message ActionsToPerform {
     repeated PinStatePair actions = 1;
+    repeated ProgrammedActionOperation programmedActionOperations = 2;
+}
+
+message ProgrammedActionOperation {
+    int32 operation = 1;
+    bool repeat = 2;
+    PinStatePair action = 3;
+    google.protobuf.Timestamp time = 4;
 }
