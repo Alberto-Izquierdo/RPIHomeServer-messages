@@ -15,6 +15,7 @@ service RPIHomeServerService {
 
 message RegistrationMessage {
     repeated string pinsToHandle = 1; 
+    repeated ProgrammedAction programmedActions = 2;
 }
 
 enum RegistrationStatusCodes {
@@ -40,9 +41,13 @@ message ActionsToPerform {
     repeated ProgrammedActionOperation programmedActionOperations = 2;
 }
 
+message ProgrammedAction {
+    PinStatePair action = 1;
+    google.protobuf.Timestamp time = 2;
+}
+
 message ProgrammedActionOperation {
     int32 operation = 1;
     bool repeat = 2;
-    PinStatePair action = 3;
-    google.protobuf.Timestamp time = 4;
+    ProgrammedAction programmedAction = 3;
 }
