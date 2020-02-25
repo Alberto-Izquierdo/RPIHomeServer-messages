@@ -43,11 +43,11 @@ message ActionsToPerform {
 
 message ProgrammedAction {
     PinStatePair action = 1;
-    google.protobuf.Timestamp time = 2;
+    bool repeat = 2;
+    google.protobuf.Timestamp time = 3;
 }
 
 message ProgrammedActionOperation {
     int32 operation = 1;
-    bool repeat = 2;
-    ProgrammedAction programmedAction = 3;
+    ProgrammedAction programmedAction = 2;
 }
