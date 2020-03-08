@@ -11,6 +11,7 @@ service RPIHomeServerService {
   rpc CheckForActions (Empty) returns (ActionsToPerform) {}
   // Last action to perform when exiting gracefully, the server will remove the pins associated with this client
   rpc UnregisterToServer (Empty) returns (Empty) {}
+  rpc SendMessageToTelegram (TelegramMessage) returns (Empty) {}
 }
 
 message RegistrationMessage {
@@ -34,6 +35,7 @@ message Empty {}
 message PinStatePair {
     string pin = 1;
     bool state = 2;
+    int64 chatId = 3;
 }
 
 message ActionsToPerform {
@@ -50,4 +52,9 @@ message ProgrammedAction {
 message ProgrammedActionOperation {
     int32 operation = 1;
     ProgrammedAction programmedAction = 2;
+}
+
+message TelegramMessage {
+    string Message = 1;
+    int64 ChatId = 2;
 }
