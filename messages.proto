@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package messages.protocol;
 
 service RPIHomeServerService {
@@ -46,7 +44,7 @@ message ActionsToPerform {
 message ProgrammedAction {
     PinStatePair action = 1;
     bool repeat = 2;
-    google.protobuf.Timestamp time = 3;
+    string time = 3;
 }
 
 message ProgrammedActionOperation {
